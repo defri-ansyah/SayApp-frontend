@@ -56,8 +56,9 @@ export default {
       const email = this.email
       const password = this.password
       e.preventDefault()
+      console.log(process.env.VUE_APP_URL_API)
       axios
-        .post('http://localhost:5000/api/user/login', {
+        .post(`${process.env.VUE_APP_SERVICE_API}/user/login`, {
           email,
           password
         }).then((res) => {

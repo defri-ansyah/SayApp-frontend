@@ -10,7 +10,7 @@ export default {
   name: 'Main',
   data () {
     return {
-      socket: io('http://localhost:4567', { query: 'data = 2' })
+      socket: io(`${process.env.SOCKET_FRONTEND_URL}`, { query: 'data = 2' })
     }
   }
 }

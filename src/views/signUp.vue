@@ -54,7 +54,7 @@ export default {
       const name = this.name
       e.preventDefault()
       axios
-        .post('http://localhost:5000/api/user/signup', {
+        .post(`${process.env.VUE_APP_SERVICE_API}/user/signup`, {
           email,
           password,
           full_name: name

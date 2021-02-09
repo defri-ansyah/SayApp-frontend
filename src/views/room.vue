@@ -61,7 +61,8 @@
         <div class="chat-person w-100 d-flex" v-for="(item, index) in alluser" :key="index" @click="handleChatList(item)">
           <!-- Image -->
           <div class="wrap-img">
-            <img :src="item.image === '' ? require(`../../src/assets/default.svg`) : item.image" alt="profile">
+            <!-- <img src="../assets/Rectangle 18.svg" alt="" class="icon-online" v-if="item.other_user !== undefined ? item.other_user.status === 'online' : false"> -->
+            <img :src="item.image === '' ? require(`../../src/assets/default.svg`) : item.image" alt="profile" class="icon-img">
           </div>
           <!-- Name and Last Message -->
           <div class="wrap-name-message d-flex flex-column justify-content-between ">
@@ -302,7 +303,7 @@ export default {
       statusF: 'offline',
       latF: 0,
       lngF: 0,
-      socket: io('http://localhost:4040'),
+      socket: io(`${process.env.SOCKET_FRONTEND_URL}`),
       search: '',
       tab: 'important',
       tabF: 'location',
@@ -471,7 +472,7 @@ export default {
     },
     getDetailUser () {
       const token = this.user.token
-      axios.get('http://localhost:5000/api/user/detail', {
+      axios.get(`${process.env.VUE_APP_URL_API}/user/detail`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -491,7 +492,7 @@ export default {
     },
     getRoomList () {
       const token = this.user.token
-      return axios.get('http://localhost:5000/api/room/list', {
+      return axios.get(`${process.env.VUE_APP_SERVICE_API}/room/list`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -505,7 +506,7 @@ export default {
     },
     getRoomChat (roomId) {
       const token = this.user.token
-      axios.get('http://localhost:5000/api/room/detail/' + roomId, {
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/room/detail/` + roomId, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -520,7 +521,7 @@ export default {
     },
     handleMap (coordinates) {
       const token = this.user.token
-      axios.patch('http://localhost:5000/api/user/update-map', {
+      axios.patch(`${process.env.VUE_APP_SERVICE_API}/user/update-map`, {
         latitude: coordinates.lat,
         longitude: coordinates.lng
       }, {
@@ -539,7 +540,7 @@ export default {
     },
     editProfile () {
       const token = this.user.token
-      axios.patch('http://localhost:5000/api/user/edit-profile', {
+      axios.patch(`${process.env.VUE_APP_SERVICE_API}/user/edit-profile`, {
         full_name: this.name,
         phone_number: this.phone,
         username: this.username,
@@ -562,7 +563,7 @@ export default {
       const token = this.user.token
       const data = new FormData()
       data.append('image', e.target.files[0])
-      axios.patch('http://localhost:5000/api/user/update-image', data, {
+      axios.patch(`${process.env.VUE_APP_SERVICE_API}/user/update-image`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -592,17 +593,25 @@ export default {
       this.handleMap(coordinates)
       console.log(coordinates)
     })
-    this.socket.on('refresh user status', () => {
+    this.socket.on('refresh user status', (userInfo) => {
       console.log('refresh user status: ', this.idF)
-    })
-    if (this.selected === 1) {
-      this.alluser.map((room) => {
-        if (room.id === this.idF) {
-          console.log('ini ini: ', this.idF)
-          this.handleChatList(room)
-        }
+      this.getRoomList().then(() => {
+        this.alluser.map((room) => {
+          if (room.id === this.idF) {
+            console.log('ini ini: ', this.idF)
+            this.handleChatList(room)
+          }
+        })
       })
-    }
+    })
+    // if (this.selected === 1) {
+    //   this.alluser.map((room) => {
+    //     if (room.id === this.idF) {
+    //       console.log('ini ini: ', this.idF)
+    //       this.handleChatList(room)
+    //     }
+    //   })
+    // }
     this.socket.emit('userOnline', { userId: this.user.id })
     this.socket.on('refresh feed', (chatting) => {
       this.getRoomList().then(() => {
@@ -1525,5 +1534,19 @@ input[type=radio] {
   padding: 20px;
   text-align: center;
 }
+// .icon-online {
+// position: relative;
+// height: 30px;
+// z-index: 3;
+// left: 19px;
+// top: 39px;
+// // display: none
+// }
+
+// .icon-img {
+//   position: relative;
+//   z-index: 2;
+//   top: -33px;
+// }
 
 </style>
