@@ -303,7 +303,7 @@ export default {
       statusF: 'offline',
       latF: 0,
       lngF: 0,
-      socket: io(`${process.env.SOCKET_FRONTEND_URL}`),
+      socket: io(`${process.env.VUE_APP_SOCKET_BACKEND_URL}`),
       search: '',
       tab: 'important',
       tabF: 'location',
@@ -472,7 +472,7 @@ export default {
     },
     getDetailUser () {
       const token = this.user.token
-      axios.get(`${process.env.VUE_APP_URL_API}/user/detail`, {
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/user/detail`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
