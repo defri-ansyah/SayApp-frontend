@@ -73,8 +73,9 @@ npm install
 3. Add .env file at root folder project, and add following
 ```sh
 VUE_APP_SERVICE_API = {YOUR_URL_API}/api
-SOCKET_FRONTEND_URL = YOUR_SOCKET_FRONTEND_URL
-SOCKET_BACKEND_URL = YOUR_SOCKET_BACKEND_URL
+VUE_APP_SOCKET_FRONTEND_URL = YOUR_SOCKET_FRONTEND_URL
+VUE_APP_SOCKET_BACKEND_URL = YOUR_SOCKET_BACKEND_URL
+VUE_APP_GMAPS_KEY = YOUR_KEY_GMAPS
 ```
 4. Run the project
 ```
@@ -109,7 +110,7 @@ Contributions are what make the open source community such an amazing place to b
 
 
 ## Related Project
-* [Backend SayApp](https://github.com/defri-ansyah/SayApp-backend)
+* [`Backend SayApp`](https://github.com/defri-ansyah/SayApp-backend)
 
 
 <!-- CONTACT -->

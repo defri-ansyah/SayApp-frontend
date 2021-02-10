@@ -15,7 +15,7 @@ Vue.use(VueToast)
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyBSML3PkHJX2Ao7_UE_dWQ3gQX9kxwX4aI',
+    key: process.env.VUE_APP_GMAPS_KEY,
     libraries: 'places'
   }
 })
